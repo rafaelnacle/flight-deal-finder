@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from twilio.rest import Client
+import smtplib
 
 load_dotenv()
 
@@ -20,3 +21,14 @@ class NotificationManager:
             to=os.getenv("MY_NUMBER")
         )
         print(message.sid)
+
+    def send_emails(self, email_list, email_body):
+        with self.connection:
+            self.connection.starttls()
+            self.connection.login(self.email, self.email_password)
+            for email in email_list:
+                self.connection.sendmail(
+                    from_addr=self.email,
+                    to_addrs=email,
+                    msg=f"Subject:New Low Price Flight!\n\n{email_body}".encode('utf-8')
+                )
