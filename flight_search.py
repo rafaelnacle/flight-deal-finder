@@ -72,7 +72,7 @@ class FlightSearch:
 
         return code
     
-    def check_flight(self, origin_city_code, destination_city_code, from_time, to_time):
+    def check_flight(self, origin_city_code, destination_city_code, from_time, to_time, is_direct=True):
         """
         Searches for flight options between two cities on specified departure and return dates
         using the Amadeus API
@@ -93,7 +93,7 @@ class FlightSearch:
             "departureDate": from_time.strftime("%Y-%m-%d"),
             "returnDate": to_time.strftime("%Y-%m-%d"),
             "adults": 1,
-            "nonStop": "true",
+            "nonStop": "true" if is_direct else "false",
             "currencyCode": "GBP",
             "max": "10",
         }
